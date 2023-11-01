@@ -220,7 +220,9 @@ export const generateMetadata = async ({params}: {params: {id: string}}) => {
         title: `Lluvia en ${station.name}`,
         description:
             aggregatedTodayRain > 0
-                ? `Ha llovido ${aggregatedTodayRain}mm en ${station.name} (${station.province}) hoy`
+                ? `Ha llovido ${formatNumber(aggregatedTodayRain)}mm en ${station.name} (${
+                      station.province
+                  }) hoy`
                 : `No ha llovido en ${station.name} (${station.province}) hoy`,
     };
 };
