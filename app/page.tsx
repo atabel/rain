@@ -20,11 +20,6 @@ const getStationsByProvince = async (
 
 const compareStationName = (a: Station, b: Station) => a.name.localeCompare(b.name);
 
-export const metadata: Metadata = {
-    title: 'Pluviómetros',
-    description: 'Registro de lluvia de la red de la Agencia Estatal de Meteorología',
-};
-
 const Home = async ({searchParams}: {searchParams: {search?: string}}) => {
     const search = searchParams?.search ?? '';
     const stations = (await getStations()).filter(
