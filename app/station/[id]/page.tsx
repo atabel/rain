@@ -216,7 +216,7 @@ export const generateMetadata = async ({params}: {params: {id: string}}) => {
     }
 
     return {
-        title: `${station.name}`,
+        title: `Lluvia en ${station.name}`,
         description: `Registro de lluvia en la estación meteorológica de ${station.name} (${station.province})`,
     };
 };
