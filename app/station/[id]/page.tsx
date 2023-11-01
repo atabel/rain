@@ -210,14 +210,18 @@ export const generateMetadata = async ({params}: {params: {id: string}}) => {
     const station = stations.find((station) => station.id === params.id);
 
     if (!station) {
-        return {
-            title: 'Not found',
-        };
+        return {};
     }
+
+    const todayRains = await getTodayRains(params.id);
+    const aggregatedTodayRain = todayRains.reduce((acc, reading) => acc + reading.rain, 0);
 
     return {
         title: `Lluvia en ${station.name}`,
-        description: `Registro de lluvia en la estación meteorológica de ${station.name} (${station.province})`,
+        description:
+            aggregatedTodayRain > 0
+                ? `Ha llovido ${aggregatedTodayRain}mm en ${station.name} (${station.province}) hoy`
+                : `No ha llovido en ${station.name} (${station.province}) hoy`,
     };
 };
 
