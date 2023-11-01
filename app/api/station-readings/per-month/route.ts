@@ -1,4 +1,4 @@
-import {getReadingsByMonth} from '../@/lib/aemet';
+import {getReadingsByMonth} from '@/lib/aemet';
 
 export const GET = async (request: Request) => {
     const {searchParams} = new URL(request.url);
