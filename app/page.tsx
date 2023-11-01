@@ -19,6 +19,10 @@ const getStationsByProvince = async (
 
 const compareStationName = (a: Station, b: Station) => a.name.localeCompare(b.name);
 
+export const metadata = {
+    title: 'Pluviómetros',
+};
+
 const Home = async ({searchParams}: {searchParams: {search?: string}}) => {
     const search = searchParams?.search ?? '';
     const stations = (await getStations()).filter(
