@@ -39,3 +39,17 @@ The easiest way to deploy your Next.js app is to use the
 from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Dan RSC tweets:
+
+https://twitter.com/Riyaadh_Abr/status/1665126139537285123
+https://github.com/reactwg/server-components/discussions/4
+https://twitter.com/dan_abramov/status/1662252687990087682
+https://twitter.com/delba_oliveira/status/1659614643621380112
+https://twitter.com/dan_abramov/status/1658595596482101249
+https://twitter.com/anthonysheww/status/1656338777873457153
+https://twitter.com/dan_abramov/status/1655266916368261125
+https://twitter.com/dan_abramov/status/1654335876908867591
+https://twitter.com/dan_abramov/status/1654323788811468800
+https://twitter.com/dan_abramov/status/1700096483318530235
+https://twitter.com/asidorenko_/status/1700102583208034746
