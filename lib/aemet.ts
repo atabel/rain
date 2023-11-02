@@ -16,6 +16,14 @@ export type Reading = {
 const API_KEY = String(process.env.AEMET_API_KEY);
 
 const API_URL = 'https://opendata.aemet.es/opendata/api/';
+
+const addQueryParam = (path: string, name, value) => {
+    const [pathWithoutQuery, query] = path.split('?');
+    const searchParams = new URLSearchParams(query);
+    searchParams.set(name, value);
+    return `${pathWithoutQuery}?${searchParams.toString()}`;
+};
+
 const apiUrl = (path: string) => {
     const url = new URL(`${API_URL}${path}`);
     url.searchParams.set('api_key', API_KEY);
@@ -31,7 +39,10 @@ const fetchJson = async <T>(url: string, requestOptions?: RequestInit): Promise<
 };
 
 const apiCall = async <T>(path: string, requestOptions?: RequestInit, retry: number = 0): Promise<T> => {
-    const url = apiUrl(path);
+    let url = apiUrl(path);
+    if (requestOptions?.cache === 'no-store') {
+        url = addQueryParam(url, 'nocache', Date.now());
+    }
     console.log(`[AEMET] Call ${path}`);
     const res = await fetchJson<{estado: number; datos: string}>(url, requestOptions);
 
@@ -40,14 +51,20 @@ const apiCall = async <T>(path: string, requestOptions?: RequestInit, retry: num
         throw res;
     }
 
-    const finalRes = await fetchJson<{estado?: number; descripcion?: string}>(res.datos);
+    let datosUrl = res.datos;
+
+    if (requestOptions?.cache === 'no-store') {
+        datosUrl = addQueryParam(datosUrl, 'nocache', Date.now());
+    }
+
+    const finalRes = await fetchJson<{estado?: number; descripcion?: string}>(datosUrl);
 
     if (finalRes.estado && finalRes.estado !== 200) {
         if (finalRes.descripcion === 'datos expirados' && retry < 3) {
-            console.warn(`[AEMET] Expired data ${path} ${res.datos} (retry ${retry})`);
+            console.warn(`[AEMET] Expired data ${path} ${datosUrl} (retry ${retry})`);
             return apiCall(path, {cache: 'no-store'}, retry + 1);
         } else {
-            console.error(`[AEMET] Error datos response (retry ${retry}) for ${path} ${res.datos}`, finalRes);
+            console.error(`[AEMET] Error datos response (retry ${retry}) for ${path} ${datosUrl}`, finalRes);
             throw finalRes;
         }
     }
