@@ -1,9 +1,7 @@
 import Link from 'next/link';
-import Title from '@/components/title';
 import Card from '@/components/card';
 import {Stack} from '@/components/flex';
 import * as styles from './list.css';
-import SearchField from './search-field';
 import {type Station} from '@/lib/aemet';
 
 const getStationsByProvince = (stations: Array<Station>): {[province: string]: Array<Station>} => {
