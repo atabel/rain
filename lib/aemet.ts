@@ -227,7 +227,7 @@ const getLastDaysFromCsv = async (stationId: string): Promise<Array<Reading>> =>
     } catch (e) {
         // when there is no data for the asked station, the aemet page returns an html instead of a CSV
         // so the parsing will fail
-        console.error('[AEMET] CSV is invalid', url, text);
+        console.error('[AEMET] CSV is invalid', url, text.slice(0, 400));
         // mimic the api error shape
         throw {estado: 404, descripcion: 'CSV is invalid'};
     }
