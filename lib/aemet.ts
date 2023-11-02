@@ -36,7 +36,7 @@ const apiCall = async <T>(path: string, requestOptions?: RequestInit, retry: num
     const res = await fetchJson<{estado: number; datos: string}>(url, requestOptions);
 
     if (res.estado !== 200 || !res.datos) {
-        console.error(`[AEMET] error response for ${path}`, res);
+        console.error(`[AEMET] Error response for ${path} (retry ${retry})`, res);
         throw res;
     }
 
@@ -44,10 +44,10 @@ const apiCall = async <T>(path: string, requestOptions?: RequestInit, retry: num
 
     if (finalRes.estado && finalRes.estado !== 200) {
         if (finalRes.descripcion === 'datos expirados' && retry < 3) {
-            console.warn(`[AEMET] expired data ${path} (retry ${retry})`);
+            console.warn(`[AEMET] Expired data ${path} (retry ${retry})`);
             return apiCall(path, {next: {revalidate: 0}}, retry + 1);
         } else {
-            console.error(`[AEMET] error datos response (retry ${retry}) for ${path} ${res.datos}`, finalRes);
+            console.error(`[AEMET] Error datos response (retry ${retry}) for ${path} ${res.datos}`, finalRes);
             throw finalRes;
         }
     }
