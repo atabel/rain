@@ -41,7 +41,7 @@ const fetchJson = async <T>(url: string, requestOptions?: RequestInit): Promise<
 const apiCall = async <T>(path: string, requestOptions?: RequestInit, retry: number = 0): Promise<T> => {
     let url = apiUrl(path);
     if (requestOptions?.cache === 'no-store') {
-        url = addQueryParam(url, 'nocache', Date.now());
+        url = addQueryParam(url, 'nocache', String(Date.now()));
     }
     console.log(`[AEMET] Call ${path}`);
     const res = await fetchJson<{estado: number; datos: string}>(url, requestOptions);
@@ -54,7 +54,7 @@ const apiCall = async <T>(path: string, requestOptions?: RequestInit, retry: num
     let datosUrl = res.datos;
 
     if (requestOptions?.cache === 'no-store') {
-        datosUrl = addQueryParam(datosUrl, 'nocache', Date.now());
+        datosUrl = addQueryParam(datosUrl, 'nocache', String(Date.now()));
     }
 
     const finalRes = await fetchJson<{estado?: number; descripcion?: string}>(datosUrl);
