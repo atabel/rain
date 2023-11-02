@@ -1,10 +1,19 @@
 'use client';
 import * as React from 'react';
-import {usePathname, useRouter, useSearchParams} from 'next/navigation';
-import {useId, useState, useTransition} from 'react';
+import {usePathname, useRouter} from 'next/navigation';
+import {useId, useTransition} from 'react';
 import * as styles from './search-field.css';
 import {vars} from './global.css';
-import Link from 'next/link';
+
+const debounce = <F extends (...args: Array<any>) => void>(func: F, timeout = 500): F => {
+    let timer: NodeJS.Timeout;
+    return ((...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func(...args);
+        }, timeout);
+    }) as F;
+};
 
 const SearchField = () => {
     const id = useId();
@@ -15,15 +24,19 @@ const SearchField = () => {
     const search = isSearchPage ? pathname.split('/search/')[1] : '';
     const inputRef = React.useRef<HTMLInputElement>(null);
 
-    const searchFor = (value: string) => {
-        startTransition(() => {
-            if (value) {
-                router.replace(`/search/${value}`);
-            } else {
-                router.replace('/');
-            }
-        });
-    };
+    const searchFor = React.useMemo(
+        () =>
+            debounce((value: string) => {
+                startTransition(() => {
+                    if (value) {
+                        router.replace(`/search/${value}`);
+                    } else {
+                        router.replace('/');
+                    }
+                });
+            }),
+        [router]
+    );
 
     return (
         <div className={search ? [styles.field, styles.fieldWithValue].join(' ') : styles.field}>
