@@ -195,17 +195,25 @@ const getLastDaysFromCsv = async (stationId: string): Promise<Array<Reading>> =>
     const decoder = new TextDecoder('ISO-8859-15');
     const text = decoder.decode(await res.arrayBuffer());
     const readings: Array<Reading> = [];
-    console.log('[AEMET] CSV', url, text);
-    text.split('\n')
-        .slice(4, -1)
-        .forEach((line) => {
-            const [date, _maxTemp, _minTemp, _avgTemp, _wind1, _wind2, rain] = line.split(',');
-            readings.unshift({
-                time: new Date(date).getTime(),
-                rain: parseApiNum(rain.replace(/"/g, '')),
-                stationId,
+    console.log('[AEMET] CSV', url);
+    try {
+        text.split('\n')
+            .slice(4, -1)
+            .forEach((line) => {
+                const [date, _maxTemp, _minTemp, _avgTemp, _wind1, _wind2, rain] = line.split(',');
+                readings.unshift({
+                    time: new Date(date).getTime(),
+                    rain: parseApiNum(rain.replace(/"/g, '')),
+                    stationId,
+                });
             });
-        });
+    } catch (e) {
+        // when there is no data for the asked station, the aemet page returns an html instead of a CSV
+        // so the parsing will fail
+        console.error('[AEMET] CSV is invalid', url, text);
+        // mimic the api error shape
+        throw {estado: 404, descripcion: 'CSV is invalid'};
+    }
 
     return readings;
 };
