@@ -44,7 +44,7 @@ const apiCall = async <T>(path: string, requestOptions?: RequestInit, retry: num
 
     if (finalRes.estado && finalRes.estado !== 200) {
         if (finalRes.descripcion === 'datos expirados' && retry < 3) {
-            console.warn(`[AEMET] Expired data ${path} (retry ${retry})`);
+            console.warn(`[AEMET] Expired data ${path} ${res.datos} (retry ${retry})`);
             return apiCall(path, {next: {revalidate: 0}}, retry + 1);
         } else {
             console.error(`[AEMET] Error datos response (retry ${retry}) for ${path} ${res.datos}`, finalRes);
