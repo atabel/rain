@@ -44,10 +44,10 @@ export const progressBar = style({
 
 const progressAnimation = keyframes({
     from: {
-        width: 0,
+        transform: 'scaleX(0)',
     },
     to: {
-        width: '100%',
+        transform: 'scaleX(1)',
     },
 });
 
@@ -56,5 +56,6 @@ export const progressBarInner = style({
     height: '100%',
     width: '100%',
     borderRadius: 4,
+    transformOrigin: 'left center',
     animation: `${progressAnimation} 1s ease-in-out`,
 });
