@@ -5,7 +5,6 @@ import Card from '@/components/card';
 import {Stack} from '@/components/flex';
 import * as styles from './list.css';
 import SearchField from './search-field';
-import {Metadata} from 'next';
 
 const getStationsByProvince = async (
     stations: Array<Station>
@@ -24,8 +23,8 @@ const Home = async ({searchParams}: {searchParams: {search?: string}}) => {
     const search = searchParams?.search ?? '';
     const stations = (await getStations()).filter(
         (station) =>
-            station.name.toLowerCase().includes(search.toLowerCase()) ||
-            station.province.toLowerCase().includes(search.toLowerCase())
+            station.name.toLowerCase().includes(search.trim().toLowerCase()) ||
+            station.province.toLowerCase().includes(search.trim().toLowerCase())
     );
     const stationsByProvince = await getStationsByProvince(stations);
 
