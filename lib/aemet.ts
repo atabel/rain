@@ -32,22 +32,22 @@ const fetchJson = async <T>(url: string, requestOptions?: RequestInit): Promise<
 
 const apiCall = async <T>(path: string, requestOptions?: RequestInit, retry: number = 0): Promise<T> => {
     const url = apiUrl(path);
-    console.log('AEMET API call', url);
+    console.log(`[AEMET] Call ${path}`);
     const res = await fetchJson<{estado: number; datos: string}>(url, requestOptions);
 
     if (res.estado !== 200 || !res.datos) {
-        console.error('error response', res);
+        console.error(`[AEMET] error response for ${path}`, res);
         throw res;
     }
 
     const finalRes = await fetchJson<{estado?: number; descripcion?: string}>(res.datos);
 
     if (finalRes.estado && finalRes.estado !== 200) {
-        console.error('error datos response', url, res, finalRes, retry);
         if (finalRes.descripcion === 'datos expirados' && retry < 3) {
-            console.log('RETRYING', path, retry);
+            console.warn(`[AEMET] expired data ${path} (retry ${retry})`);
             return apiCall(path, {next: {revalidate: 0}}, retry + 1);
         } else {
+            console.error(`[AEMET] error datos response (retry ${retry}) for ${path} ${res.datos}`, finalRes);
             throw finalRes;
         }
     }
@@ -190,7 +190,7 @@ const getLastDaysFromCsv = async (stationId: string): Promise<Array<Reading>> =>
     const decoder = new TextDecoder('ISO-8859-15');
     const text = decoder.decode(await res.arrayBuffer());
     const readings: Array<Reading> = [];
-    console.log('CSV', url, text);
+    console.log('[AEMET] CSV', url, text);
     text.split('\n')
         .slice(4, -1)
         .forEach((line) => {
