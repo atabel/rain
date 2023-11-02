@@ -17,7 +17,7 @@ const API_KEY = String(process.env.AEMET_API_KEY);
 
 const API_URL = 'https://opendata.aemet.es/opendata/api/';
 
-const addQueryParam = (path: string, name, value) => {
+const addQueryParam = (path: string, name: string, value: string) => {
     const [pathWithoutQuery, query] = path.split('?');
     const searchParams = new URLSearchParams(query);
     searchParams.set(name, value);
