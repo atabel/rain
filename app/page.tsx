@@ -6,9 +6,7 @@ import {Stack} from '@/components/flex';
 import * as styles from './list.css';
 import SearchField from './search-field';
 
-const getStationsByProvince = async (
-    stations: Array<Station>
-): Promise<{[province: string]: Array<Station>}> => {
+const getStationsByProvince = (stations: Array<Station>): {[province: string]: Array<Station>} => {
     const byProvince: {[province: string]: Array<Station>} = {};
     stations.forEach((s) => {
         byProvince[s.province] = byProvince[s.province] || [];
@@ -26,7 +24,7 @@ const Home = async ({searchParams}: {searchParams: {search?: string}}) => {
             station.name.toLowerCase().includes(search.trim().toLowerCase()) ||
             station.province.toLowerCase().includes(search.trim().toLowerCase())
     );
-    const stationsByProvince = await getStationsByProvince(stations);
+    const stationsByProvince = getStationsByProvince(stations);
 
     return (
         <main style={{padding: '24px 16px', maxWidth: 1024, margin: '0 auto'}}>
