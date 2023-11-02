@@ -10,20 +10,18 @@ const SearchField = () => {
     const id = useId();
     const router = useRouter();
     const pathname = usePathname();
-    const searchParams = useSearchParams();
     const [isPending, startTransition] = useTransition();
-    const search = searchParams.get('search') ?? '';
+    const isSearchPage = pathname.startsWith('/search/');
+    const search = isSearchPage ? pathname.split('/search/')[1] : '';
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     const searchFor = (value: string) => {
-        const newSearchParams = new URLSearchParams(searchParams);
-        if (value) {
-            newSearchParams.set('search', value);
-        } else {
-            newSearchParams.delete('search');
-        }
         startTransition(() => {
-            router.replace(pathname + '?' + newSearchParams.toString());
+            if (value) {
+                router.replace(`/search/${value}`);
+            } else {
+                router.replace('/');
+            }
         });
     };
 
