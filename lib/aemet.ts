@@ -150,11 +150,16 @@ export const getStations = (): Promise<Array<Station>> =>
     }).then((stations) => stations.map(createStation));
 
 export const getTodayReadings = async (stationId: string): Promise<Array<Reading>> => {
-    // using this startOfDay as url param to invalidate cache and get fresh data
+    // using this startOfCurrentHour as url param to invalidate cache and get fresh data
     const today = new Date();
-    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+    const startOfCurrentHour = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        today.getHours()
+    ).getTime();
     const readings = await apiCall<Array<HourlyReadingFromServer>>(
-        `observacion/convencional/datos/estacion/${stationId}?d=${startOfDay}`,
+        `observacion/convencional/datos/estacion/${stationId}?d=${startOfCurrentHour}`,
         {
             next: {
                 revalidate: 10 * 60, // 5 minutes
