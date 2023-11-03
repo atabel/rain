@@ -9,14 +9,14 @@ type Props = {
 };
 
 export const HorizontalRainList = ({readings}: Props) => {
-    const hourFormatter = new Intl.DateTimeFormat('es-ES', {hour: 'numeric'});
+    const hourFormatter = new Intl.DateTimeFormat('es-ES', {hour: 'numeric', minute: 'numeric'});
     return (
         <div className={styles.horizontalList}>
             <Inline as="ul" gap={16}>
                 {readings.map((reading, idx) => (
                     <Stack as="li" key={idx} gap={8} alignItems="center">
                         <time dateTime={new Date(reading.time).toISOString()} className={styles.hour}>
-                            {hourFormatter.format(reading.time)}h
+                            {hourFormatter.format(reading.time)}
                         </time>
                         <div aria-hidden>{reading.rain > 0 ? '💧' : '-'}</div>
                         <div className={styles.amount}>
