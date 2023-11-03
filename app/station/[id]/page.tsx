@@ -31,13 +31,13 @@ const getTodayRains = async (stationId: string) => {
 
 const TodaySummary = async ({stationId}: {stationId: string}) => {
     const todayRains = await getTodayRains(stationId);
-    const aggregatedTodayRain = todayRains.reduce((acc, reading) => acc + reading.rain, 0);
+    const aggregatedTodayRain = todayRains.reduce((acc, reading) => acc + (reading.rain ?? 0), 0);
     return <RainSummary rain={aggregatedTodayRain} />;
 };
 
 const LastHours = async ({stationId}: {stationId: string}) => {
     const lastHours = await getLastHours(stationId);
-    const totalRain = lastHours.reduce((acc, reading) => acc + reading.rain, 0);
+    const totalRain = lastHours.reduce((acc, reading) => acc + (reading.rain ?? 0), 0);
     return (
         <Card
             title="Últimas 24h"
@@ -61,12 +61,12 @@ const LastDays = async ({stationId}: {stationId: string}) => {
     const lastDays = await getPerDay(stationId, startOfToday - ONE_WEEK, startOfToday);
 
     const todayRains = await getTodayRains(stationId);
-    const aggregatedTodayRain = todayRains.reduce((acc, reading) => acc + reading.rain, 0);
+    const aggregatedTodayRain = todayRains.reduce((acc, reading) => acc + (reading.rain ?? 0), 0);
 
     const todayReading: Reading = {rain: aggregatedTodayRain, time: today.getTime(), stationId};
 
     const readings = [todayReading, ...reverse(lastDays)];
-    const totalRain = readings.reduce((acc, reading) => acc + reading.rain, 0);
+    const totalRain = readings.reduce((acc, reading) => acc + (reading.rain ?? 0), 0);
 
     return (
         <Card
@@ -93,7 +93,7 @@ const LastDays = async ({stationId}: {stationId: string}) => {
 
 const LastMonths = async ({stationId}: {stationId: string}) => {
     const lastMonths = await getPerMonth(stationId);
-    const totalRain = lastMonths.reduce((acc, reading) => acc + reading.rain, 0);
+    const totalRain = lastMonths.reduce((acc, reading) => acc + (reading.rain ?? 0), 0);
     return (
         <Card
             title="Por meses"
