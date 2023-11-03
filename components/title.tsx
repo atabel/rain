@@ -9,7 +9,6 @@ const Title = ({children}: Props) => {
         <h1
             style={{
                 fontSize: vars.fontSizes.pageTitle,
-                textAlign: 'center',
                 fontWeight: 500,
                 position: 'sticky',
                 top: 0,
@@ -17,6 +16,10 @@ const Title = ({children}: Props) => {
                 paddingBottom: '16px',
                 paddingTop: '16px',
                 zIndex: 1,
+                minHeight: '72px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
             }}
         >
             {children}

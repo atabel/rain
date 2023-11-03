@@ -13,9 +13,7 @@ export default function RootLayout({
         <main style={{padding: '24px 16px', maxWidth: 1024, margin: '0 auto'}}>
             <Stack gap={16}>
                 <Title>{header ?? 'Estaciones'}</Title>
-                <div style={{paddingTop: 16}}>
-                    <SearchField />
-                </div>
+                <SearchField />
                 {children}
             </Stack>
         </main>

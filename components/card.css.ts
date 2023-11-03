@@ -17,10 +17,10 @@ export const cardTitle = style({
     fontSize: vars.fontSizes.title,
     fontWeight: 500,
     position: 'sticky',
-    top: 60,
+    top: 72,
     zIndex: 1,
     background: vars.colors.background,
-    margin: '-1px -17px 16px',
+    margin: '-1px -17px 0px',
     padding: '16px 16px 0',
     ':before': {
         background: vars.colors.backgroundContainer,
@@ -56,4 +56,5 @@ export const cardTitleContent = style({
     justifyContent: 'space-between',
     position: 'relative',
     zIndex: 2,
+    paddingBottom: 16,
 });
