@@ -18,10 +18,9 @@ export const HorizontalRainList = ({readings}: Props) => {
                         <time dateTime={new Date(reading.time).toISOString()} className={styles.hour}>
                             {hourFormatter.format(reading.time)}
                         </time>
-                        <div aria-hidden>{reading.rain > 0 ? '💧' : '-'}</div>
+                        <div aria-hidden>{reading.rain ? '💧' : '-'}</div>
                         <div className={styles.amount}>
-                            {formatNumber(reading.rain)}
-                            {'\u00A0'}mm
+                            {typeof reading.rain === 'number' ? `${formatNumber(reading.rain)}\u00A0mm` : '-'}
                         </div>
                     </Stack>
                 ))}
@@ -36,7 +35,7 @@ type VerticalRainListProps = {
 };
 
 export const VerticalRainList = ({readings, formatter}: VerticalRainListProps) => {
-    const maxRain = Math.max(...readings.map((reading) => reading.rain));
+    const maxRain = Math.max(...readings.map((reading) => reading.rain ?? 0));
     const percentage = (rain: number) => (rain * 100) / maxRain;
     return (
         <table>
@@ -57,7 +56,7 @@ export const VerticalRainList = ({readings, formatter}: VerticalRainListProps) =
                             </time>
                         </td>
                         <td aria-hidden className={styles.tableCell} style={{textAlign: 'center'}}>
-                            <div>{reading.rain > 0 ? '💧' : '-'}</div>
+                            <div>{reading.rain ? '💧' : '-'}</div>
                         </td>
                         <td aria-hidden style={{width: '100%'}} className={styles.tableCell}>
                             <div className={styles.progressBar}>
@@ -65,7 +64,7 @@ export const VerticalRainList = ({readings, formatter}: VerticalRainListProps) =
                                     style={{
                                         position: 'absolute',
                                         height: '100%',
-                                        width: `${percentage(reading.rain)}%`,
+                                        width: `${percentage(reading.rain ?? 0)}%`,
                                     }}
                                 >
                                     <div className={styles.progressBarInner} />
@@ -74,7 +73,7 @@ export const VerticalRainList = ({readings, formatter}: VerticalRainListProps) =
                         </td>
                         <td className={styles.tableCell} style={{textAlign: 'right'}}>
                             <div className={styles.amount}>
-                                {formatNumber(reading.rain)}
+                                {typeof reading.rain === 'number' ? formatNumber(reading.rain) : '-'}
                                 <SROnly>mm</SROnly>
                             </div>
                         </td>

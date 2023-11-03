@@ -9,7 +9,7 @@ export type Station = {
 
 export type Reading = {
     time: number;
-    rain: number;
+    rain: number | null;
     stationId: string;
 };
 
@@ -155,7 +155,7 @@ const createReadingFromMontly =
     (stationId: string) =>
     ({fecha, p_mes}: MontlyReadingFromServer): Reading => ({
         time: new Date(fecha).getTime(),
-        rain: parseApiNum(p_mes),
+        rain: typeof p_mes !== undefined ? parseApiNum(p_mes) : null,
         stationId,
     });
 
