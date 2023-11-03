@@ -10,6 +10,7 @@ import {formatNumber} from '@/utils/number-formatter';
 import Link from 'next/link';
 import {notFound} from 'next/navigation';
 import {Suspense} from 'react';
+import {CardErrorBoundary, RainErrorBoundary} from './error-boundaries';
 
 const reverse = <T,>(arr: Array<T>) => arr.slice().reverse();
 
@@ -149,23 +150,30 @@ const StationPage = ({params}: {params: {id: string}}) => {
                 <Suspense fallback={<Title>Cargando...</Title>}>
                     <StationName stationId={params.id} />
                 </Suspense>
-                <Stack gap={24}>
-                    <Suspense fallback={<RainSummary />}>
-                        <TodaySummary stationId={params.id} />
-                    </Suspense>
-
-                    <Stack gap={16}>
-                        <Suspense fallback={<Card title="Últimas 24h">Cargando...</Card>}>
-                            <LastHours stationId={params.id} />
-                            <Suspense fallback={<Card title="Últimos días">Cargando...</Card>}>
-                                <LastDays stationId={params.id} />
-                                <Suspense fallback={<Card title="Por meses">Cargando...</Card>}>
-                                    <LastMonths stationId={params.id} />
-                                </Suspense>
-                            </Suspense>
+                <RainErrorBoundary>
+                    <Stack gap={24}>
+                        <Suspense fallback={<RainSummary />}>
+                            <TodaySummary stationId={params.id} />
                         </Suspense>
+
+                        <Stack gap={16}>
+                            <Suspense fallback={<Card title="Últimas 24h">Cargando...</Card>}>
+                                <LastHours stationId={params.id} />
+                                <CardErrorBoundary title="Últimos días">
+                                    <Suspense fallback={<Card title="Últimos días">Cargando...</Card>}>
+                                        <LastDays stationId={params.id} />
+
+                                        <CardErrorBoundary title="Por meses">
+                                            <Suspense fallback={<Card title="Por meses">Cargando...</Card>}>
+                                                <LastMonths stationId={params.id} />
+                                            </Suspense>
+                                        </CardErrorBoundary>
+                                    </Suspense>
+                                </CardErrorBoundary>
+                            </Suspense>
+                        </Stack>
                     </Stack>
-                </Stack>
+                </RainErrorBoundary>
             </main>
             <div style={{width: '100%', height: 56}} />
             <footer
@@ -213,17 +221,9 @@ export const generateMetadata = async ({params}: {params: {id: string}}) => {
         return {};
     }
 
-    const todayRains = await getTodayRains(params.id);
-    const aggregatedTodayRain = todayRains.reduce((acc, reading) => acc + reading.rain, 0);
-
     return {
         title: `Lluvia en ${station.name}`,
-        description:
-            aggregatedTodayRain > 0
-                ? `Ha llovido ${formatNumber(aggregatedTodayRain)}mm en ${station.name} (${
-                      station.province
-                  }) hoy`
-                : `No ha llovido en ${station.name} (${station.province}) hoy`,
+        description: `Registro de lluvia en la estacion meteorológica de ${station.name} (${station.province})`,
     };
 };
 

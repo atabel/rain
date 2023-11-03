@@ -1,4 +1,3 @@
-import {Stack} from './flex';
 import * as styles from './card.css';
 
 type CardProps = {

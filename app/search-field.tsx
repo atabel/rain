@@ -78,6 +78,7 @@ const SearchField = () => {
                         inputRef.current.blur();
                         searchFor('');
                     }}
+                    aria-label="Cancelar búsqueda"
                 >
                     <svg height="24" viewBox="0 -960 960 960" width="24" fill={vars.colors.text}>
                         <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
