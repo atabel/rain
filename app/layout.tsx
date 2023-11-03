@@ -7,6 +7,12 @@ export const metadata: Metadata = {
     title: 'Pluviómetros',
     description:
         'Registro de lluvia de la red de estaciones meteorológicas la Agencia Estatal de Meteorología',
+
+    metadataBase: new URL(
+        process.env.VERCEL_URL
+            ? `https://${process.env.VERCEL_URL}`
+            : `http://localhost:${process.env.PORT || 3000}`
+    ),
     openGraph: {
         images: ['/icon.svg'],
     },
