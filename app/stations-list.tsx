@@ -22,34 +22,42 @@ type Props = {
 const StationsList = ({stations}: Props) => {
     const stationsByProvince = getStationsByProvince(stations);
     return (
-        <Stack gap={16} as="ul">
-            {Object.keys(stationsByProvince)
-                .sort()
-                .map((province, idx) => (
-                    <li key={province}>
-                        <Card title={province} right={`(${stationsByProvince[province].length})`}>
-                            <ul className={styles.list}>
-                                {stationsByProvince[province].sort(compareStationName).map((station) => (
-                                    <li key={station.id} value={station.id} className={styles.row}>
-                                        <Link href={`/station/${station.id}`} className={styles.rowLink}>
-                                            <div className={styles.rowText}>{station.name}</div>
-                                            <svg
-                                                style={{marginRight: -6, display: 'block'}}
-                                                fill="#86888C"
-                                                height="24"
-                                                viewBox="0 -960 960 960"
-                                                width="24"
-                                            >
-                                                <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
-                                            </svg>
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </Card>
-                    </li>
-                ))}
-        </Stack>
+        <>
+            <svg style={{display: 'none'}}>
+                <defs>
+                    <symbol viewBox="0 -960 960 960" id="chevron">
+                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+                    </symbol>
+                </defs>
+            </svg>
+            <Stack gap={16} as="ul">
+                {Object.keys(stationsByProvince)
+                    .sort()
+                    .map((province, idx) => (
+                        <li key={province}>
+                            <Card title={province} right={`(${stationsByProvince[province].length})`}>
+                                <ul className={styles.list}>
+                                    {stationsByProvince[province].sort(compareStationName).map((station) => (
+                                        <li key={station.id} value={station.id} className={styles.row}>
+                                            <Link href={`/station/${station.id}`} className={styles.rowLink}>
+                                                <div className={styles.rowText}>{station.name}</div>
+                                                <svg
+                                                    style={{marginRight: -6, display: 'block'}}
+                                                    fill="#86888C"
+                                                    height="24"
+                                                    width="24"
+                                                >
+                                                    <use href="#chevron" />
+                                                </svg>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </Card>
+                        </li>
+                    ))}
+            </Stack>
+        </>
     );
 };
 
