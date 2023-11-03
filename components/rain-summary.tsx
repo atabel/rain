@@ -11,7 +11,8 @@ const RainSummary = ({rain}: Props) => {
         <div style={{fontWeight: 500, textAlign: 'center'}}>
             <Stack gap={16}>
                 <div style={{fontSize: vars.fontSizes.extraLarge}}>
-                    {typeof rain === 'number' ? formatNumber(rain) : '-'}{' '}
+                    {typeof rain === 'number' ? formatNumber(rain) : '-'}
+                    {'\u00A0'}
                     <span style={{fontSize: '0.8em'}}>mm</span>
                 </div>
                 <div>Hoy</div>

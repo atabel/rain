@@ -18,7 +18,9 @@ export const HorizontalRainList = ({readings}: Props) => {
                         <time dateTime={new Date(reading.time).toISOString()} className={styles.hour}>
                             {hourFormatter.format(reading.time)}
                         </time>
-                        <div aria-hidden>{reading.rain ? '💧' : '-'}</div>
+                        <div aria-hidden style={{height: 24, display: 'flex', alignItems: 'center'}}>
+                            {reading.rain ? '💧' : '・'}
+                        </div>
                         <div className={styles.amount}>
                             {typeof reading.rain === 'number' ? `${formatNumber(reading.rain)}\u00A0mm` : '-'}
                         </div>
@@ -56,7 +58,7 @@ export const VerticalRainList = ({readings, formatter}: VerticalRainListProps) =
                             </time>
                         </td>
                         <td aria-hidden className={styles.tableCell} style={{textAlign: 'center'}}>
-                            <div>{reading.rain ? '💧' : '-'}</div>
+                            <div>{reading.rain ? '💧' : '・'}</div>
                         </td>
                         <td aria-hidden style={{width: '100%'}} className={styles.tableCell}>
                             <div className={styles.progressBar}>
