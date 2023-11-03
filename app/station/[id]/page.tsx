@@ -16,11 +16,13 @@ const reverse = <T,>(arr: Array<T>) => arr.slice().reverse();
 
 const weekdayFormatter = new Intl.DateTimeFormat('es-ES', {
     weekday: 'short',
+    timeZone: 'Europe/Madrid',
 });
 
 const monthFormatter = new Intl.DateTimeFormat('es-ES', {
     month: 'short',
     year: 'numeric',
+    timeZone: 'Europe/Madrid',
 });
 
 const aggregateReadings = (readings: Array<Reading>): number => {

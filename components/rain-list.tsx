@@ -9,7 +9,11 @@ type Props = {
 };
 
 export const HorizontalRainList = ({readings}: Props) => {
-    const hourFormatter = new Intl.DateTimeFormat('es-ES', {hour: 'numeric', minute: 'numeric'});
+    const hourFormatter = new Intl.DateTimeFormat('es-ES', {
+        hour: 'numeric',
+        minute: 'numeric',
+        timeZone: 'Europe/Madrid',
+    });
     return (
         <div className={styles.horizontalList}>
             <Inline as="ul" gap={16}>
