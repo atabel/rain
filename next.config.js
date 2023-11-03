@@ -3,17 +3,9 @@ const withVanillaExtract = createVanillaExtractPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // logging: {
-    //     fetches: {
-    //         fullUrl: true,
-    //     },
-    // },
-    experimental: {
-        logging: {
-            fetches: {
-                fullUrl: true,
-            },
-            level: 'verbose',
+    logging: {
+        fetches: {
+            fullUrl: true,
         },
     },
 };
