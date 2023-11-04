@@ -10,6 +10,7 @@
         "postinstall": "husky install"
     },
     "dependencies": {
+        "@sentry/nextjs": "^7.77.0",
         "@vanilla-extract/css": "^1.13.0",
         "@vanilla-extract/dynamic": "^2.0.3",
         "@vercel/analytics": "^1.1.1",
