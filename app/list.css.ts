@@ -14,6 +14,18 @@ export const rowLink = style({
     marginRight: -16,
     color: 'inherit',
     textDecoration: 'none',
+    WebkitTapHighlightColor: 'transparent',
+    '@media': {
+        '(pointer: fine)': {
+            ':hover': {
+                backgroundColor: vars.colors.backgroundContainerHover,
+            },
+        },
+    },
+    ':active': {
+        backgroundColor: vars.colors.backgroundContainerHover,
+    },
+    borderRadius: 15,
 });
 
 export const rowText = style({display: 'flex', alignItems: 'center'});
