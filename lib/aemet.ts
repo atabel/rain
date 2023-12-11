@@ -198,6 +198,28 @@ const getApiDateFromTs = (ts: number) => {
     return `${year}-${month}-${day}T${hour}:${min}:${sec}UTC`;
 };
 
+const spanishToEnglishMonths = {
+    'ene.': 'jan',
+    'feb.': 'feb',
+    'mar.': 'mar',
+    'abr.': 'apr',
+    'may.': 'may',
+    'jun.': 'jun',
+    'jul.': 'jul',
+    'ago.': 'aug',
+    'sep.': 'sep',
+    'oct.': 'oct',
+    'nov.': 'nov',
+    'dic.': 'dec',
+};
+
+const parseSpanishDate = (spanishDate: string): Date => {
+    const englishDate = Object.entries(spanishToEnglishMonths).reduce((acc, [spanishMonth, englishMonth]) => {
+        return acc.replace(spanishMonth, englishMonth);
+    }, spanishDate);
+    return new Date(englishDate);
+};
+
 const getLastDaysFromCsv = async (stationId: string): Promise<Array<Reading>> => {
     // using this startOfDay as url param to invalidate cache and get fresh data
     const today = new Date();
@@ -218,8 +240,9 @@ const getLastDaysFromCsv = async (stationId: string): Promise<Array<Reading>> =>
             .slice(4, -1)
             .forEach((line) => {
                 const [date, _maxTemp, _minTemp, _avgTemp, _wind1, _wind2, rain] = line.split(',');
+                const parsedDate = parseSpanishDate(date);
                 readings.unshift({
-                    time: new Date(date).getTime(),
+                    time: parsedDate.getTime(),
                     rain: parseApiNum(rain.replace(/"/g, '')),
                     stationId,
                 });
@@ -312,5 +335,6 @@ export const getReadingsByMonth = async (stationId: string): Promise<Array<Readi
                 return Number(readingMonth) >= currentMonth;
             }
         })
-        .map(createReadingFromMontly(stationId));
+        .map(createReadingFromMontly(stationId))
+        .sort((a, b) => a.time - b.time);
 };
