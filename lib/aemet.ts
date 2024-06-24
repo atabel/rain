@@ -138,7 +138,7 @@ const createStation = ({
 const createReading =
     (stationId: string) =>
     ({fint, prec}: HourlyReadingFromServer): Reading => ({
-        time: new Date(fint + 'Z').getTime(),
+        time: new Date(fint).getTime(),
         rain: Number(prec || 0),
         stationId,
     });
