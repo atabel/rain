@@ -15,7 +15,8 @@ export const HorizontalRainList = ({readings}: Props) => {
         timeZone: 'Europe/Madrid',
     });
     return (
-        <div className={styles.horizontalList}>
+        // tabindex="0" because scrollable content should be focusable https://dequeuniversity.com/rules/axe/4.9/scrollable-region-focusable?application=AxeChrome
+        <div className={styles.horizontalList} tabIndex={0}>
             <Inline as="ul" gap={16}>
                 {readings.map((reading, idx) => (
                     <Stack as="li" key={idx} gap={8} alignItems="center">
